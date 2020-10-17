@@ -1,6 +1,6 @@
 import bs4 as bs
 import requests
-import pandas as pd
+import openpyxl
 
 class zoeker:
     def __init__(self, provincie, stad):
@@ -12,8 +12,20 @@ class zoeker:
         
         access = requests.get(self.url).text
         html = bs.BeautifulSoup(access, 'html.parser')
+        self.soup = html
+        
 
-        return html
+    def adres(self):
+        soup = self.soup
+        adressen = soup.find_all('a', 'titel')
+        adressen = adressen[1:]
+
+        adressen = [adr.strong.text for adr in adressen]
+        return adressen
+
+
+
+    
 
     
         
